@@ -910,12 +910,17 @@ static int link_info (lua_State *L) {
 ** Assumes the table is on top of the stack.
 */
 static void set_info (lua_State *L) {
+  lua_pushstring(L, "_COPYRIGHT");
   lua_pushliteral(L, "Copyright (C) 2003-2017 Kepler Project");
-  lua_setfield(L, -2, "_COPYRIGHT");
+  lua_rawset(L, -3);
+
+  lua_pushstring(L, "_DESCRIPTION");
   lua_pushliteral(L, "LuaFileSystem is a Lua library developed to complement the set of functions related to file systems offered by the standard Lua distribution");
-  lua_setfield(L, -2, "_DESCRIPTION");
+  lua_rawset(L, -3);
+
+  lua_pushstring(L, "_VERSION");
   lua_pushliteral(L, "LuaFileSystem " LFS_VERSION);
-  lua_setfield(L, -2, "_VERSION");
+  lua_rawset(L, -3);
 }
 
 
@@ -937,11 +942,8 @@ static const struct luaL_Reg fslib[] = {
 };
 
 LFS_EXPORT int luaopen_lfs (lua_State *L) {
-        dir_create_meta (L);
-        lock_create_meta (L);
-        new_lib (L, fslib);
-        lua_pushvalue(L, -1);
-        lua_setglobal(L, LFS_LIBNAME);
-        set_info (L);
+        lua_newtable(L);
+        luaL_setfuncs(L, fslib, 0);
+        set_info(L);
         return 1;
 }
