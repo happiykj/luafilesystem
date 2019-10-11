@@ -1,2 +1,7 @@
 *.so
 
+/Win32/Release/*.log
+/Win32/Release/*.obj
+/Win32/Release/lfs.tlog/*.tlog
+/Win32/Release/lfs.tlog/*.lastbuildstate
+/Win32/Release/*.txt
